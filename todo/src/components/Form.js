@@ -12,7 +12,6 @@ function Form(props) {
   // submit
   function handleSubmit(e) {
     e.preventDefault();
-    alert(name);
     // use callback prop to gain access to addTask function in App.js
     props.addTask(name);
     setName(""); // set name field blank
