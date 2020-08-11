@@ -4,11 +4,25 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import { nanoid } from "nanoid";
 
+// filter object to store filter types
+const FILTER_MAP = {
+  All: () => true,
+  Incomplete: task => !task.completed,
+  Completed: task => task.completed
+};
+// collect names of filters using  object keys
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
 // index.js passed DATA as props so we can access items, pass in Todo component
 function App(props) {
-  const [tasksData, setTasks] = useState(props.tasksData); // setTasks hook to update state
+  // setTasks hook to update state  (useState always on top)
+  const [tasksData, setTasks] = useState(props.tasksData);
+  // filter hooks
+  const [filter, setFilter] = useState("All");
+
   // process tasks in DATA, and
-  const taskList = tasksData.map(task => <Todo id={task.id} name={task.name} toggleTaskCompleted={toggleTaskCompleted} key={task.id} deleteTask={deleteTask} editTask={editTask} />);
+  const taskList = tasksData.filter(FILTER_MAP[filter]).map(task => <Todo id={task.id} name={task.name} completed={task.completed} key={task.id} toggleTaskCompleted={toggleTaskCompleted} deleteTask={deleteTask} editTask={editTask} />); // filter list FILTER_NAMES
+  const filterList = FILTER_NAMES.map(name => <FilterButton key={name} name={name} isPressed={name === filter} setFilter={setFilter} />);
 
   // set tasks remaining heading
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
@@ -65,11 +79,7 @@ function App(props) {
       <h1>TodoMatic</h1>
       {/* callback prop, pass addTask function into Form for use*/}
       <Form addTask={addTask} />
-      <div className="filters btn-group stack-exception">
-        <FilterButton />
-        <FilterButton />
-        <FilterButton />
-      </div>
+      <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading">{heading}</h2>
       <ul role="list" className="todo-list stack-large stack-exception" aria-labelledby="list-heading">
         {/*using variable now that the component is called in the taskList loop */}
