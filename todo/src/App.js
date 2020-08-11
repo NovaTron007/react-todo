@@ -21,8 +21,25 @@ function App(props) {
   const [filter, setFilter] = useState("All");
 
   // process tasks in DATA, and
-  const taskList = tasksData.filter(FILTER_MAP[filter]).map(task => <Todo id={task.id} name={task.name} completed={task.completed} key={task.id} toggleTaskCompleted={toggleTaskCompleted} deleteTask={deleteTask} editTask={editTask} />); // filter list FILTER_NAMES
-  const filterList = FILTER_NAMES.map(name => <FilterButton key={name} name={name} isPressed={name === filter} setFilter={setFilter} />);
+  const taskList = tasksData.filter(FILTER_MAP[filter])
+  .map(task => 
+    <Todo id={task.id} 
+      name={task.name} 
+      completed={task.completed} 
+      key={task.id} 
+      toggleTaskCompleted={toggleTaskCompleted} 
+      deleteTask={deleteTask} 
+      editTask={editTask} />
+  ); 
+  
+  // filter list FILTER_NAMES
+  const filterList = FILTER_NAMES.map(name => 
+    <FilterButton 
+      key={name} 
+      name={name}
+      isPressed={name === filter} 
+      setFilter={setFilter} 
+    />);
 
   // set tasks remaining heading
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task";

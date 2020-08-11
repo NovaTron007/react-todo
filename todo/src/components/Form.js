@@ -24,7 +24,14 @@ function Form(props) {
           What needs to be done?
         </label>
       </h2>
-      <input onChange={handleChange} value={name} type="text" id="new-todo-input" className="input input__lg" name="text" autoComplete="off" />
+      <input 
+        onChange={handleChange} 
+        value={name} type="text" 
+        id="new-todo-input" 
+        className="input input__lg" 
+        name="text" 
+        autoComplete="off"
+      />
       <button type="submit" className="btn btn__primary btn__lg">
         Add
       </button>
