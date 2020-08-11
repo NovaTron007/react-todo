@@ -8,7 +8,7 @@ import { nanoid } from "nanoid";
 function App(props) {
   const [tasksData, setTasks] = useState(props.tasksData); // setTasks hook to update state
   // process tasks in DATA, and
-  const taskList = tasksData.map(task => <Todo id={task.id} name={task.name} toggleTaskCompleted={toggleTaskCompleted} key={task.id} deleteTask={deleteTask} />);
+  const taskList = tasksData.map(task => <Todo id={task.id} name={task.name} toggleTaskCompleted={toggleTaskCompleted} key={task.id} deleteTask={deleteTask} editTask={editTask} />);
 
   // set tasks remaining heading
   const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
@@ -49,6 +49,17 @@ function App(props) {
     setTasks(remainingTasks);
   }
 
+  // edit task, receive id and newName from state in component
+  function editTask(id, newName) {
+    const editedTaskList = tasksData.map(task => {
+      //if this task has same id as edited task
+      if (id === task.id) {
+        return { ...task, name: newName };
+      }
+      return task;
+    });
+    setTasks(editedTaskList);
+  }
   return (
     <div className="todoapp stack-large">
       <h1>TodoMatic</h1>
